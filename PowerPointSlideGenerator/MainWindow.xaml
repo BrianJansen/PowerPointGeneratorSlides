@@ -1,0 +1,51 @@
+﻿<Window x:Class="PowerPointSlideGenerator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PowerPointSlideGenerator"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="750" Width="1000">
+    <Grid>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top">
+            <TextBlock Text="Title Field"/>
+            <TextBox x:Name="Title" Text="{Binding TitleAreaText}" Height="100" Width="600" Margin="0,0,0,10"/>
+            <TextBlock Text="Text Field"/>
+            <RichTextBox x:Name="TextArea" Height="100" Width="600" Margin="0,0,0,10"/>
+            <Button x:Name="SearchImagesBtn" Command="{Binding SearchImagesCmd}" Height="30" Width="100" Content="Search"/>
+            <Button x:Name="BoldSelectBtn" Command="{Binding BoldSelectedCmd}" Height="30" Width="100" Content="Bold Selected"/>
+            <Button x:Name="GenerateSlideBtn" Command="{Binding GenerateSlideCmd}" Height="30" Width="100" Content="Generate Slide"/>
+        </StackPanel>
+        <TextBlock HorizontalAlignment="Right" Text="Selected Images (Click to unselect)" />
+        <ItemsControl x:Name="ConfirmedImages" HorizontalAlignment="Right" Margin="0,50,0,0" Width="200" ItemsSource="{Binding ConfirmedImages}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel VerticalAlignment="Top" HorizontalAlignment="Right" Orientation="Vertical" Margin="5" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Button VerticalAlignment="Bottom" Height="100" Width="100" Margin="20,5" CommandParameter="{Binding Path=.}" Command="{Binding Path=DataContext.ConfirmedImageSelected, ElementName=ConfirmedImages}">
+                        <Image Source="{Binding}" />
+                    </Button>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <ItemsControl x:Name="ImagePanel" Height="300" VerticalAlignment="Bottom" ItemsSource="{Binding Images}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel HorizontalAlignment="Center" Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Button VerticalAlignment="Bottom"  Margin="20,10" CommandParameter="{Binding Path=.}" Command="{Binding Path=DataContext.ImageSelected, ElementName=ImagePanel}" Height="140" Width="140">
+                        <Image Source="{Binding}" />
+                    </Button>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        
+    </Grid>
+</Window>
